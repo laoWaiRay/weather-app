@@ -6,15 +6,19 @@
 
 html{
     font-size: 62.5%;
+    min-height: 100%;
 }
 
 body{
     box-sizing: border-box;
     font-size: 2rem;
     font-family: 'Noto Sans', sans-serif;
-    height: 100vh;
+    min-height: 130%;
     color: #fff;
     position: relative;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.75)), url('/hero.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 a{
