@@ -1,0 +1,18 @@
+.get-user-location-btn{
+  width: 40rem;
+  height: 20rem;
+  border: 1px solid #fff;
+  background: 0;
+  font-family: inherit;
+  font-weight: 200;
+  color: inherit;
+  font-size: 4rem;
+  position: absolute;
+  top: 40vh;
+  transform: translateY(-50%);
+
+  &:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}

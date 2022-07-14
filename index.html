@@ -25,18 +25,76 @@
     </div>
   </nav>
 
+
   <main class="content">
-    <div class="card-container">
-      <div class="card">
-        <h2 class="card__header">Langley, BC, CAN</h2>
-        <div class="card__subheader">Now</div>
-        <img class="card__weather-icon" src="/gif/rain.gif" alt="">
-        <div class="card__temp">18°C</div>
-      </div>
-    </div>
+    <!-- <button class="get-user-location-btn">Get Weather</button> -->
+    <div class="card-container"></div>
   </main>
 
-    <script src="app.js" type="module"></script>
+  <section class="details">
+      <div class="details-container">
+        <div class="details-header">
+          <div class="details-header__main">
+            <span class="heading-primary details-header__heading">Langley, BC, CA</span>
+            <img class="details-header__icon" src="/gif/partly-cloudy-night.gif" alt="">
+            <span class="details-header__temp">16°C</span>
+          </div>
+          <div class="details-header__sub">
+            <span class="details-header__subtext">Looks like rain...</span>
+            <span class="details-header__subtext--high">H: 18°C</span>
+            <span class="details-header__subtext--low">L: 14°C</span>
+          </div>
+        </div>
+
+        <div class="hourly-forecast">
+          <h2 class="heading-secondary">Hourly Forecast</h2>
+          <div class="hourly-forecast__container">
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">9:00AM</span>
+              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+              <span class="hourly-forecast__temp">12°C</span>
+            </div>
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">12:00PM</span>
+              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+              <span class="hourly-forecast__temp">14°C</span>
+            </div>
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">3:00PM</span>
+              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+              <span class="hourly-forecast__temp">15°C</span>
+            </div>
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">6:00PM</span>
+              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+              <span class="hourly-forecast__temp">13°C</span>
+            </div>
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">9:00PM</span>
+              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+              <span class="hourly-forecast__temp">11°C</span>
+            </div>
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">12:00AM</span>
+              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+              <span class="hourly-forecast__temp">9°C</span>
+            </div>
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">3:00AM</span>
+              <img class="hourly-forecast__icon" src="/gif/sunny.gif"></img>
+              <span class="hourly-forecast__temp">9°C</span>
+            </div>
+            <div class="hourly-forecast__item">
+              <span class="hourly-forecast__time">6:00AM</span>
+              <img class="hourly-forecast__icon" src="/gif/sunny.gif"></img>
+              <span class="hourly-forecast__temp">10°C</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <script src="app.js" type="module"></script>
 </body>
 </html>
 
