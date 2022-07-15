@@ -14,7 +14,6 @@ const getMatchingCityList = async(cityInput) => {
   return cityList;
 }
 
-const getUserInput = () => {
   const citySearchInput = document.querySelector('#city');
   const celsiusToggler = document.querySelector('.nav__temp-celsius');
   const fahrenheitToggler = document.querySelector('.nav__temp-fahrenheit');
@@ -22,112 +21,133 @@ const getUserInput = () => {
   let cityWeatherData = [];
   let units = 'Celsius';
 
-  const clearInput = () => {
-    citySearchInput.value = '';
+const clearInput = () => {
+  citySearchInput.value = '';
+}
+
+const setCityListFromInput = async() => {
+  cityList = await getMatchingCityList(getCityInput())
+                              .catch(err => console.log('Error: could not fetch weather data.', err));
+}
+
+const getCityWeatherData = async(cityList) => {
+  cityWeatherData = [];
+  for (let city of cityList) {
+    const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${API_KEY}`);
+    const data = await result.json();
+    cityWeatherData.push(data);
+  } 
+}
+
+const getWeatherIconSrc = (weatherCode) => {
+  if(weatherCode === 'Clear') return './gif/sunny.gif';
+  if(weatherCode === 'Rain') return './gif/rain.gif';
+  if(weatherCode === 'Clouds') return './gif/partly-cloudy-day.gif';
+  if(weatherCode === 'Snow') return './gif/snowy.gif';
+  if(weatherCode === 'Thunderstorm') return './gif/lightning.gif';
+}
+
+const clearCardContainer = () => {
+  const container = document.querySelector('.card-container');
+  while (container.firstChild) {
+    container.firstChild.remove();
   }
+}
 
-  const setCityListFromInput = async() => {
-    cityList = await getMatchingCityList(getCityInput())
-                                .catch(err => console.log('Error: could not fetch weather data.', err));
-  }
+const makeCard = (cityData, cityWeatherData) => {
+  const container = document.querySelector('.card-container');
+  const card = document.createElement('div');
+  card.classList.add('card');
+  const cardHeader = document.createElement('h2')
+  cardHeader.classList.add('card__header');
+  cardHeader.append(`${cityData.name}${cityData.state ? ', ' + cityData.state : ''}${cityData.country ? ', ' + cityData.country : ''}`);
+  const cardSubHeader = document.createElement('div');
+  cardSubHeader.classList.add('card__subheader');
+  cardSubHeader.append('Now');
+  const cardWeatherIcon = document.createElement('img');
+  cardWeatherIcon.classList.add('card__weather-icon');
+  cardWeatherIcon.src = getWeatherIconSrc(cityWeatherData.weather[0].main);
+  const cardTemp = document.createElement('div');
+  cardTemp.classList.add('card__temp');
+  if(units === 'Celsius') cardTemp.append(`${conversion.KtoC(cityWeatherData.main.temp)}°C`);
+  if(units === 'Fahrenheit') cardTemp.append(`${conversion.KtoF(cityWeatherData.main.temp)}°F`);
+  container.append(card);
+  card.append(cardHeader, cardSubHeader, cardWeatherIcon, cardTemp);
+}
 
-  const getCityWeatherData = async(cityList) => {
-    cityWeatherData = [];
-    for (let city of cityList) {
-      const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${API_KEY}`);
-      const data = await result.json();
-      cityWeatherData.push(data);
-    } 
-  }
-
-  const getWeatherIconSrc = (weatherCode) => {
-    if(weatherCode === 'Clear') return './gif/sunny.gif';
-    if(weatherCode === 'Rain') return './gif/rain.gif';
-    if(weatherCode === 'Clouds') return './gif/partly-cloudy-day.gif';
-    if(weatherCode === 'Snow') return './gif/snowy.gif';
-    if(weatherCode === 'Thunderstorm') return './gif/lightning.gif';
-  }
-
-  const clearCardContainer = () => {
-    const container = document.querySelector('.card-container');
-    while (container.firstChild) {
-      container.firstChild.remove();
-    }
-  }
-
-  const makeCard = (cityData, cityWeatherData) => {
-    const container = document.querySelector('.card-container');
-    const card = document.createElement('div');
-    card.classList.add('card');
-    const cardHeader = document.createElement('h2')
-    cardHeader.classList.add('card__header');
-    cardHeader.append(`${cityData.name}${cityData.state ? ', ' + cityData.state : ''}${cityData.country ? ', ' + cityData.country : ''}`);
-    const cardSubHeader = document.createElement('div');
-    cardSubHeader.classList.add('card__subheader');
-    cardSubHeader.append('Now');
-    const cardWeatherIcon = document.createElement('img');
-    cardWeatherIcon.classList.add('card__weather-icon');
-    cardWeatherIcon.src = getWeatherIconSrc(cityWeatherData.weather[0].main);
-    const cardTemp = document.createElement('div');
-    cardTemp.classList.add('card__temp');
-    if(units === 'Celsius') cardTemp.append(`${conversion.KtoC(cityWeatherData.main.temp)}°C`);
-    if(units === 'Fahrenheit') cardTemp.append(`${conversion.KtoF(cityWeatherData.main.temp)}°F`);
-    container.append(card);
-    card.append(cardHeader, cardSubHeader, cardWeatherIcon, cardTemp);
-  }
-
-  citySearchInput.addEventListener('keydown', async(e) => {
-    if(e.key === 'Enter'){
-      if(!citySearchInput.value) return;
-      await setCityListFromInput();
-      clearInput();
-      await getCityWeatherData(cityList);
-      clearCardContainer();
-      cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
-      console.dir(cityList)
-      console.dir(cityWeatherData)
-    }
-  })
-
-  celsiusToggler.addEventListener('click', () => {
-    units = 'Celsius';
+citySearchInput.addEventListener('keydown', async(e) => {
+  if(e.key === 'Enter'){
+    if(!citySearchInput.value) return;
+    await setCityListFromInput();
+    clearInput();
+    await getCityWeatherData(cityList);
     clearCardContainer();
     cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
-  })
-
-  fahrenheitToggler.addEventListener('click', () => {
-    units = 'Fahrenheit';
-    clearCardContainer();
-    cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
-  })
-
-  const get5DayForecast = async (latitude, longitude) => {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
-    const data = await response.json();
-    console.dir(data);
+    console.dir(cityList)
+    console.dir(cityWeatherData)
   }
+})
 
-  get5DayForecast(49.103, -122.656);
+celsiusToggler.addEventListener('click', () => {
+  units = 'Celsius';
+  clearCardContainer();
+  cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
+})
+
+fahrenheitToggler.addEventListener('click', () => {
+  units = 'Fahrenheit';
+  clearCardContainer();
+  cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
+})
+
+const get5DayForecast = async (latitude, longitude) => {
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
+  const data = await response.json();
+  console.dir(data);
+}
+
+  // get5DayForecast(49.103, -122.656);
 
   
 
 
-  // const getUserLocationBtn = document.querySelector('.get-user-location-btn')
+const getUserLocationBtn = document.querySelector('.get-user-location-btn')
 
-  // getUserLocationBtn.addEventListener('click', () => {
-  //   const successHandler = async (response) => {
-  //     const { latitude, longitude } = response.coords;
-  //     const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
-  //     const cityWeatherData = await result.json();
-  //     const cityName = cityWeatherData.name;
-  //     console.dir(cityWeatherData)
-  //   }
-
-  //   navigator.geolocation.getCurrentPosition(successHandler);
-  // })
+const getSpecificCityWeatherData = async(latitude, longitude) => {
+  const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
+  const cityWeatherData = await result.json();
+  return cityWeatherData;
 }
 
-getUserInput();
+const makeDetailsPage = (cityWeatherData) => {
+  const content = document.querySelector('.content');
+  const template = document.querySelector('#details-template');
+  const detailsTemplate = document.importNode(template.content, true);
+  content.append(detailsTemplate);
+
+  const headerHeading = document.querySelector('.details-header__heading');
+  headerHeading.innerText = cityWeatherData.name
+  const headerIcon = document.querySelector('.details-header__icon');
+  headerIcon.src = getWeatherIconSrc(cityWeatherData.weather[0].main);
+  const headerTemp = document.querySelector('.details-header__temp');
+  if (units === 'Celcius') headerTemp.innerText = `${conversion.KtoC(cityWeatherData.main.temp)}°C`;
+  if (units === 'Fahrenheit') headerTemp.innerText = `${conversion.KtoF(cityWeatherData.main.temp)}°F`;
+  const headerSubtext = document.querySelector('.details-header__subtext');
+  headerSubtext.innerText = cityWeatherData.weather[0].description;
+}
+
+getUserLocationBtn.addEventListener('click', () => {
+  getUserLocationBtn.remove();
+  const successHandler = async (response) => {
+    const { latitude, longitude } = await response.coords;
+    const cityWeatherData = await getSpecificCityWeatherData(latitude,longitude);
+    makeDetailsPage(cityWeatherData);
+  }
+
+  navigator.geolocation.getCurrentPosition(successHandler);
+})
+
+
 
 
 

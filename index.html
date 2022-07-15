@@ -27,92 +27,94 @@
 
 
   <main class="content">
-    <!-- <button class="get-user-location-btn">Get Weather</button> -->
+    <button class="get-user-location-btn">Get Weather</button>
     <!-- <div class="card-container"></div> -->
 
-  <section class="details">
-      <div class="details-container">
-        <div class="details-header">
-          <div class="details-header__main">
-            <span class="heading-primary details-header__heading">Langley, BC, CA</span>
-            <img class="details-header__icon" src="/gif/partly-cloudy-night.gif" alt="">
-            <span class="details-header__temp">16°C</span>
-          </div>
-          <div class="details-header__sub">
-            <span class="details-header__subtext">Looks like rain...</span>
-          </div>
-        </div>
-
-        <div class="hourly-forecast">
-          <h2 class="heading-secondary">Hourly Forecast</h2>
-          <div class="hourly-forecast__container">
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">9:00AM</span>
-              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
-              <span class="hourly-forecast__temp">12°C</span>
+  <template id="details-template">
+    <section class="details">
+        <div class="details-container">
+          <div class="details-header">
+            <div class="details-header__main">
+              <span class="heading-primary details-header__heading">Langley, BC, CA</span>
+              <img class="details-header__icon" src="/gif/partly-cloudy-night.gif" alt="">
+              <span class="details-header__temp">16°C</span>
             </div>
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">12:00PM</span>
-              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
-              <span class="hourly-forecast__temp">14°C</span>
-            </div>
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">3:00PM</span>
-              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
-              <span class="hourly-forecast__temp">15°C</span>
-            </div>
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">6:00PM</span>
-              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
-              <span class="hourly-forecast__temp">13°C</span>
-            </div>
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">9:00PM</span>
-              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
-              <span class="hourly-forecast__temp">11°C</span>
-            </div>
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">12:00AM</span>
-              <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
-              <span class="hourly-forecast__temp">9°C</span>
-            </div>
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">3:00AM</span>
-              <img class="hourly-forecast__icon" src="/gif/sunny.gif"></img>
-              <span class="hourly-forecast__temp">9°C</span>
-            </div>
-            <div class="hourly-forecast__item">
-              <span class="hourly-forecast__time">6:00AM</span>
-              <img class="hourly-forecast__icon" src="/gif/sunny.gif"></img>
-              <span class="hourly-forecast__temp">10°C</span>
+            <div class="details-header__sub">
+              <span class="details-header__subtext">Looks like rain...</span>
             </div>
           </div>
-        </div>
 
-        <div class="high-low info-box info-box--temp">
-          <span class="heading-secondary high">H: 18°C</span>
-          <span class="heading-secondary low">L: 14°C</span>
-        </div>
+          <div class="hourly-forecast">
+            <h2 class="heading-secondary">Hourly Forecast</h2>
+            <div class="hourly-forecast__container">
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">9:00AM</span>
+                <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+                <span class="hourly-forecast__temp">12°C</span>
+              </div>
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">12:00PM</span>
+                <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+                <span class="hourly-forecast__temp">14°C</span>
+              </div>
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">3:00PM</span>
+                <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+                <span class="hourly-forecast__temp">15°C</span>
+              </div>
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">6:00PM</span>
+                <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+                <span class="hourly-forecast__temp">13°C</span>
+              </div>
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">9:00PM</span>
+                <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+                <span class="hourly-forecast__temp">11°C</span>
+              </div>
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">12:00AM</span>
+                <img class="hourly-forecast__icon" src="/gif/rain.gif"></img>
+                <span class="hourly-forecast__temp">9°C</span>
+              </div>
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">3:00AM</span>
+                <img class="hourly-forecast__icon" src="/gif/sunny.gif"></img>
+                <span class="hourly-forecast__temp">9°C</span>
+              </div>
+              <div class="hourly-forecast__item">
+                <span class="hourly-forecast__time">6:00AM</span>
+                <img class="hourly-forecast__icon" src="/gif/sunny.gif"></img>
+                <span class="hourly-forecast__temp">10°C</span>
+              </div>
+            </div>
+          </div>
 
-        <div class="sunrise-sunset info-box info-box--sun">
-          <span class="heading-secondary sunrise">Sunrise: 6:00AM</span>
-          <svg id="sunrise" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 417.36 111.76"><defs><style>.cls-1{fill:#fbb03b;stroke-width:0.76px;}.cls-1,.cls-2{stroke:#fff;stroke-miterlimit:10;}.cls-2{fill:none;stroke-width:3px;opacity:1;}</style></defs><circle class="cls-1" cx="315.19" cy="98.38" r="13"/><circle class="cls-1" cx="94.19" cy="13.38" r="13"/><path class="cls-2" d="M.69,55.94s98-94.63,204.12,0,211.88,0,211.88,0"/></svg>
-          <span class="heading-secondary sunset">Sunset: 9:00PM</span>
-        </div>
+          <div class="high-low info-box info-box--temp">
+            <span class="heading-secondary high">H: 18°C</span>
+            <span class="heading-secondary low">L: 14°C</span>
+          </div>
 
-        <div class="humidity info-box">
-          <div class="heading-secondary info-text">Humidity</div>
-          <svg id="humidity" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240.86 321.83"><defs><style>.cls-4{fill:#ccc;}</style></defs><path class="cls-4" d="M719.5,388.5c-6-57-77-159.67-120-204.83,0,0-111,124.83-120,204.83-5.26,46.75,38,117,113,117S725.5,445.5,719.5,388.5ZM594.68,475.85c-56.83,0-89.6-53.23-85.62-88.65C515.88,326.58,600,232,600,232c32.58,34.22,86.38,112,90.92,155.2S651.51,475.85,594.68,475.85Z" transform="translate(-479.07 -183.67)"/><path class="cls-4" d="M563.5,327.5c-14.08,0-25.5,14.77-25.5,33s11.42,33,25.5,33,25.5-14.77,25.5-33S577.58,327.5,563.5,327.5Zm-.43,52.5c-5.73,0-10.38-8.84-10.38-19.75s4.65-19.75,10.38-19.75,10.37,8.84,10.37,19.75S568.8,380,563.07,380Z" transform="translate(-479.07 -183.67)"/><polygon class="cls-4" points="157.9 143.83 93.93 253.2 82.43 253.2 146.23 143.83 157.9 143.83"/><path class="cls-4" d="M634.72,374.2c-14.08,0-25.5,14.77-25.5,33s11.42,33,25.5,33,25.5-14.77,25.5-33S648.81,374.2,634.72,374.2Zm-.43,52.5c-5.73,0-10.37-8.84-10.37-19.75s4.64-19.75,10.37-19.75S644.67,396,644.67,407,640,426.7,634.29,426.7Z" transform="translate(-479.07 -183.67)"/></svg>
-          <span class="heading-secondary info-number">75</span>
-        </div>
+          <div class="sunrise-sunset info-box info-box--sun">
+            <span class="heading-secondary sunrise">Sunrise: 6:00AM</span>
+            <svg id="sunrise" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 417.36 111.76"><defs><style>.cls-1{fill:#fbb03b;stroke-width:0.76px;}.cls-1,.cls-2{stroke:#fff;stroke-miterlimit:10;}.cls-2{fill:none;stroke-width:3px;opacity:1;}</style></defs><circle class="cls-1" cx="315.19" cy="98.38" r="13"/><circle class="cls-1" cx="94.19" cy="13.38" r="13"/><path class="cls-2" d="M.69,55.94s98-94.63,204.12,0,211.88,0,211.88,0"/></svg>
+            <span class="heading-secondary sunset">Sunset: 9:00PM</span>
+          </div>
 
-        <div class="feels-like info-box">
-          <div class="heading-secondary info-text">Feels like</div>
-          <svg id="thermometer" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 213.74 512"><defs><style>.cls-4{fill:#ccc;}.cls-5{fill:#fff;}</style></defs><path class="cls-4" d="M620.5,393.5v-265S617.5,87,583,87c0,0-35,0-37,41V393.7s-70,25.41-70,99.11S544.5,599,583,599s106.74-30,106.74-106.74S620.5,393.5,620.5,393.5ZM581.62,558.23c-23.58,0-65.53-19.91-65.53-65.05S570.5,429.5,570.5,429.5l1-290c0-25,11-24,11-24,14,0,13,22,13,22v291S647,445.83,647,492.85,605.2,558.23,581.62,558.23Z" transform="translate(-476 -87)"/><rect class="cls-5" x="135" y="72" width="9" height="8.36"/><rect class="cls-5" x="135" y="101.27" width="9" height="8.36"/><rect class="cls-5" x="135" y="101.27" width="9" height="8.36"/><rect class="cls-5" x="135" y="130.55" width="9" height="8.36"/><rect class="cls-5" x="135" y="130.55" width="9" height="8.36"/><rect class="cls-5" x="135" y="159.82" width="9" height="8.36"/><rect class="cls-5" x="135" y="189.09" width="9" height="8.36"/><rect class="cls-5" x="135" y="218.36" width="9" height="8.36"/><rect class="cls-5" x="135" y="218.36" width="9" height="8.36"/><rect class="cls-5" x="135" y="247.64" width="9" height="8.36"/></svg>
-          <span class="heading-secondary info-number">18°C</span>
+          <div class="humidity info-box">
+            <div class="heading-secondary info-text">Humidity</div>
+            <svg id="humidity" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240.86 321.83"><defs><style>.cls-4{fill:#ccc;}</style></defs><path class="cls-4" d="M719.5,388.5c-6-57-77-159.67-120-204.83,0,0-111,124.83-120,204.83-5.26,46.75,38,117,113,117S725.5,445.5,719.5,388.5ZM594.68,475.85c-56.83,0-89.6-53.23-85.62-88.65C515.88,326.58,600,232,600,232c32.58,34.22,86.38,112,90.92,155.2S651.51,475.85,594.68,475.85Z" transform="translate(-479.07 -183.67)"/><path class="cls-4" d="M563.5,327.5c-14.08,0-25.5,14.77-25.5,33s11.42,33,25.5,33,25.5-14.77,25.5-33S577.58,327.5,563.5,327.5Zm-.43,52.5c-5.73,0-10.38-8.84-10.38-19.75s4.65-19.75,10.38-19.75,10.37,8.84,10.37,19.75S568.8,380,563.07,380Z" transform="translate(-479.07 -183.67)"/><polygon class="cls-4" points="157.9 143.83 93.93 253.2 82.43 253.2 146.23 143.83 157.9 143.83"/><path class="cls-4" d="M634.72,374.2c-14.08,0-25.5,14.77-25.5,33s11.42,33,25.5,33,25.5-14.77,25.5-33S648.81,374.2,634.72,374.2Zm-.43,52.5c-5.73,0-10.37-8.84-10.37-19.75s4.64-19.75,10.37-19.75S644.67,396,644.67,407,640,426.7,634.29,426.7Z" transform="translate(-479.07 -183.67)"/></svg>
+            <span class="heading-secondary info-number">75</span>
+          </div>
+
+          <div class="feels-like info-box">
+            <div class="heading-secondary info-text">Feels like</div>
+            <svg id="thermometer" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 213.74 512"><defs><style>.cls-4{fill:#ccc;}.cls-5{fill:#fff;}</style></defs><path class="cls-4" d="M620.5,393.5v-265S617.5,87,583,87c0,0-35,0-37,41V393.7s-70,25.41-70,99.11S544.5,599,583,599s106.74-30,106.74-106.74S620.5,393.5,620.5,393.5ZM581.62,558.23c-23.58,0-65.53-19.91-65.53-65.05S570.5,429.5,570.5,429.5l1-290c0-25,11-24,11-24,14,0,13,22,13,22v291S647,445.83,647,492.85,605.2,558.23,581.62,558.23Z" transform="translate(-476 -87)"/><rect class="cls-5" x="135" y="72" width="9" height="8.36"/><rect class="cls-5" x="135" y="101.27" width="9" height="8.36"/><rect class="cls-5" x="135" y="101.27" width="9" height="8.36"/><rect class="cls-5" x="135" y="130.55" width="9" height="8.36"/><rect class="cls-5" x="135" y="130.55" width="9" height="8.36"/><rect class="cls-5" x="135" y="159.82" width="9" height="8.36"/><rect class="cls-5" x="135" y="189.09" width="9" height="8.36"/><rect class="cls-5" x="135" y="218.36" width="9" height="8.36"/><rect class="cls-5" x="135" y="218.36" width="9" height="8.36"/><rect class="cls-5" x="135" y="247.64" width="9" height="8.36"/></svg>
+            <span class="heading-secondary info-number">18°C</span>
+          </div>
         </div>
-      </div>
-  </section>
+    </section>
+  </template>
 
 </main>
 
