@@ -62,6 +62,7 @@ a:hover::after {
   font-size: 4rem;
   margin-top: 7rem;
   letter-spacing: 2px;
+  border-radius: 10px;
 }
 .get-user-location-btn:hover {
   cursor: pointer;
