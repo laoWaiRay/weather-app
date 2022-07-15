@@ -107,9 +107,9 @@ const getUserInput = () => {
     console.dir(data);
   }
 
-  // get5DayForecast(49.103, -122.656);
+  get5DayForecast(49.103, -122.656);
 
-
+  
 
 
   // const getUserLocationBtn = document.querySelector('.get-user-location-btn')

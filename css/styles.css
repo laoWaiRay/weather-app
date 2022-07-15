@@ -6,7 +6,7 @@
 
 html {
   font-size: 62.5%;
-  min-height: 100%;
+  height: 100%;
 }
 
 body {
@@ -18,7 +18,7 @@ body {
   position: relative;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.75)), url("/hero.jpg");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 a {
@@ -42,7 +42,7 @@ a:hover::after {
 }
 
 .green {
-  color: rgb(9, 132, 9);
+  color: rgb(46, 234, 46);
 }
 
 .heading-secondary {
@@ -69,8 +69,13 @@ a:hover::after {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.map {
+  height: 100%;
+  width: 100%;
+}
+
 .nav {
-  z-index: 1;
+  z-index: 2;
   padding: 1rem 4rem;
   display: flex;
   align-items: center;
@@ -86,16 +91,10 @@ a:hover::after {
   display: flex;
   align-items: center;
 }
-.nav__logo-img {
-  width: 5rem;
-}
-.nav__logo-img:hover {
-  cursor: pointer;
-}
 .nav__logo-text {
   font-size: 3rem;
   font-weight: 400;
-  margin-left: 2rem;
+  margin-left: 0;
   letter-spacing: 1px;
 }
 .nav__controls {
@@ -186,26 +185,24 @@ span.slash {
 .details {
   min-height: 100vh;
   width: 100%;
-  position: absolute;
-  top: 0;
   z-index: 1;
   display: flex;
-  padding-top: 7rem;
+  padding: 3rem;
+  padding-top: 6rem;
   justify-content: center;
   align-items: center;
   font-weight: 200;
 }
 
 .details-container {
-  border: 1px solid #fff;
   z-index: 2;
   width: 95%;
-  height: 85vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 15rem repeat(2, 1fr);
-  padding: 2rem;
-  gap: 2rem;
+  padding-bottom: 4rem;
+  gap: 4rem 0;
+  width: 110rem;
 }
 
 .details-header {
@@ -227,7 +224,8 @@ span.slash {
   margin: 0 3rem;
 }
 .details-header__temp {
-  font-size: 5rem;
+  font-size: 6rem;
+  font-weight: 400;
 }
 .details-header__sub {
   height: fit-content;
@@ -242,6 +240,9 @@ span.slash {
   grid-column: 1/2;
   grid-row: 2/-1;
   justify-self: center;
+  max-height: 42rem;
+  overflow-y: scroll;
+  padding: 0 4rem;
 }
 .hourly-forecast__item {
   font-size: 2.5rem;
@@ -255,6 +256,97 @@ span.slash {
 .hourly-forecast__icon {
   width: 3rem;
   margin: 0 3rem;
+}
+@media only screen and (min-width: 600px) {
+  .hourly-forecast::-webkit-scrollbar {
+    width: 2px;
+    display: none;
+  }
+  .hourly-forecast::-webkit-scrollbar-track {
+    background: #fff;
+    margin: 1rem 0;
+  }
+  .hourly-forecast::-webkit-scrollbar-thumb {
+    background-color: rgba(50, 48, 48, 0.8588235294);
+    border-radius: 100vw;
+  }
+  .hourly-forecast:hover::-webkit-scrollbar {
+    display: block;
+  }
+}
+
+.info-box {
+  border: 1px solid #fff;
+  border-radius: 30px;
+  width: 25rem;
+  justify-self: center;
+  padding: 3rem;
+  position: relative;
+}
+.info-box--temp {
+  background-image: linear-gradient(-45deg, transparent, transparent 50%, rgba(223, 91, 30, 0.493) 0%, rgba(244, 120, 4, 0.52));
+}
+
+.high {
+  position: absolute;
+  top: 4.5rem;
+  left: 3rem;
+}
+
+.low {
+  position: absolute;
+  bottom: 3.5rem;
+  right: 3rem;
+}
+
+#sunrise {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+
+.sunrise {
+  position: absolute;
+  top: 30px;
+  left: 16px;
+  font-size: 2rem;
+}
+
+.sunset {
+  position: absolute;
+  bottom: 25px;
+  right: 18px;
+  font-size: 2rem;
+}
+
+#humidity,
+#thermometer {
+  position: absolute;
+  width: 9rem;
+  bottom: 10px;
+  right: 10px;
+  opacity: 0.15;
+}
+
+#thermometer {
+  width: 6rem;
+}
+
+.humidity,
+.feels-like {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.humidity > *,
+.feels-like > * {
+  margin: 0;
+}
+
+.info-number {
+  font-size: 6rem;
 }
 
 /*# sourceMappingURL=styles.css.map */
