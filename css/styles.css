@@ -122,6 +122,9 @@ a:hover::after {
   display: flex;
   align-items: center;
 }
+.nav__logo:hover {
+  cursor: pointer;
+}
 .nav__logo-text {
   font-size: 3rem;
   font-weight: 400;

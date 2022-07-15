@@ -2,6 +2,17 @@ import conversion from "./conversion.js";
 
 const API_KEY = 'a50c5c89e6094bcfb80760c1cec24902';
 
+const formatAMPM = (date) => {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ampm;
+  return strTime;
+}
+
 const getCityInput = () => {
   const cityInput = document.querySelector('#city');
   const city = cityInput.value;
@@ -14,12 +25,12 @@ const getMatchingCityList = async(cityInput) => {
   return cityList;
 }
 
-  const citySearchInput = document.querySelector('#city');
-  const celsiusToggler = document.querySelector('.nav__temp-celsius');
-  const fahrenheitToggler = document.querySelector('.nav__temp-fahrenheit');
-  let cityList = [];
-  let cityWeatherData = [];
-  let units = 'Celsius';
+const citySearchInput = document.querySelector('#city');
+const celsiusToggler = document.querySelector('.nav__temp-celsius');
+const fahrenheitToggler = document.querySelector('.nav__temp-fahrenheit');
+let cityList = [];
+let cityWeatherData = [];
+let units = 'Celsius';
 
 const clearInput = () => {
   citySearchInput.value = '';
@@ -103,13 +114,15 @@ fahrenheitToggler.addEventListener('click', () => {
 const get5DayForecast = async (latitude, longitude) => {
   const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
   const data = await response.json();
-  console.dir(data);
+  return data;
 }
 
-  // get5DayForecast(49.103, -122.656);
-
-  
-
+const clearContent = () => {
+  const content = document.querySelector('.content');
+  while (content.firstChild) {
+    content.firstChild.remove();
+  }
+}
 
 const getUserLocationBtn = document.querySelector('.get-user-location-btn')
 
@@ -119,31 +132,70 @@ const getSpecificCityWeatherData = async(latitude, longitude) => {
   return cityWeatherData;
 }
 
-const makeDetailsPage = (cityWeatherData) => {
+const makeDetailsPage = (cityWeatherData, hourlyWeatherData) => {
   const content = document.querySelector('.content');
   const template = document.querySelector('#details-template');
   const detailsTemplate = document.importNode(template.content, true);
   content.append(detailsTemplate);
 
   const headerHeading = document.querySelector('.details-header__heading');
-  headerHeading.innerText = cityWeatherData.name
+  headerHeading.innerText = `${cityWeatherData.name}, ${cityWeatherData.sys.country}`;
   const headerIcon = document.querySelector('.details-header__icon');
   headerIcon.src = getWeatherIconSrc(cityWeatherData.weather[0].main);
   const headerTemp = document.querySelector('.details-header__temp');
-  if (units === 'Celcius') headerTemp.innerText = `${conversion.KtoC(cityWeatherData.main.temp)}°C`;
+  if (units === 'Celsius') headerTemp.innerText = `${conversion.KtoC(cityWeatherData.main.temp)}°C`;
   if (units === 'Fahrenheit') headerTemp.innerText = `${conversion.KtoF(cityWeatherData.main.temp)}°F`;
   const headerSubtext = document.querySelector('.details-header__subtext');
   headerSubtext.innerText = cityWeatherData.weather[0].description;
+  const tempHigh = document.querySelector('.high');
+  if (units === 'Celsius') tempHigh.innerText = `H: ${conversion.KtoC(cityWeatherData.main.temp_max)}°C`;
+  if (units === 'Fahrenheit') tempHigh.innerText = `H: ${conversion.KtoF(cityWeatherData.main.temp_max)}°F`;
+  const tempLow = document.querySelector('.low');
+  if (units === 'Celsius') tempLow.innerText = `L: ${conversion.KtoC(cityWeatherData.main.temp_min)}°C`;
+  if (units === 'Fahrenheit') tempLow.innerText = `L: ${conversion.KtoF(cityWeatherData.main.temp_min)}°F`;
+  const sunrise = document.querySelector('.sunrise');
+  const sunriseDate = new Date(cityWeatherData.sys.sunrise * 1000);
+  sunrise.innerText = `Sunrise: ${formatAMPM(sunriseDate)}`;
+  const sunset = document.querySelector('.sunset');
+  const sunsetDate = new Date(cityWeatherData.sys.sunset * 1000);
+  sunset.innerText = `Sunset: ${formatAMPM(sunsetDate)}`;
+  const humidity = document.querySelector('.humidity-number');
+  humidity.innerText = cityWeatherData.main.humidity;
+  const feelsLike = document.querySelector('.feels-like-number');
+  if (units === 'Celsius') feelsLike.innerText = conversion.KtoC(cityWeatherData.main.feels_like);
+  if (units === 'Fahrenheit') feelsLike.innerText = conversion.KtoF(cityWeatherData.main.feels_like);
+  const hourlyForecastContainer = document.querySelector('.hourly-forecast__container');
+  hourlyWeatherData.forEach((weatherObj) => {
+    const weatherDate = new Date(weatherObj.dt * 1000);
+    const time = formatAMPM(weatherDate);
+    const weatherCode = weatherObj.weather[0].main;
+    const tempInKelvin = weatherObj.main.temp;
+    const hourlyForecastItem = document.createElement('div');
+    hourlyForecastItem.classList.add('hourly-forecast__item');
+    const hourlyForecastTime = document.createElement('span');
+    hourlyForecastTime.classList.add('hourly-forecast__time');
+    hourlyForecastTime.append(time);
+    const hourlyForecastIcon = document.createElement('img');
+    hourlyForecastIcon.classList.add('hourly-forecast__icon');
+    hourlyForecastIcon.src = getWeatherIconSrc(weatherCode);
+    const hourlyForecastTemp = document.createElement('span');
+    hourlyForecastTemp.classList.add('hourly-forecast__temp');
+    if (units === 'Celsius') hourlyForecastTemp.append(`${conversion.KtoC(tempInKelvin)}°C`);
+    if (units === 'Fahrenheit') hourlyForecastTemp.append(`${conversion.KtoF(tempInKelvin)}°F`);
+    hourlyForecastContainer.append(hourlyForecastItem);
+    hourlyForecastItem.append(hourlyForecastTime, hourlyForecastIcon, hourlyForecastTemp);
+  })
 }
 
 getUserLocationBtn.addEventListener('click', () => {
-  getUserLocationBtn.remove();
   const successHandler = async (response) => {
     const { latitude, longitude } = await response.coords;
     const cityWeatherData = await getSpecificCityWeatherData(latitude,longitude);
-    makeDetailsPage(cityWeatherData);
+    const forecast = await get5DayForecast(latitude, longitude);
+    const hourlyWeatherData = forecast.list.slice(0,8);
+    makeDetailsPage(cityWeatherData, hourlyWeatherData);
   }
-
+  clearContent();
   navigator.geolocation.getCurrentPosition(successHandler);
 })
 

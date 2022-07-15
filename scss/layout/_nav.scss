@@ -14,15 +14,11 @@
   &__logo{
     display: flex;
     align-items: center;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
-
-  // &__logo-img{
-  //   width: 5rem;
-
-  //   &:hover{
-  //     cursor: pointer;
-  //   }
-  // }
 
   &__logo-text{
     font-size: 3rem;
