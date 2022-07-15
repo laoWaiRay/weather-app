@@ -2,6 +2,10 @@ import conversion from "./conversion.js";
 
 const API_KEY = 'a50c5c89e6094bcfb80760c1cec24902';
 
+let cityList = [];
+let cityWeatherData = [];
+let units = 'Celsius';
+
 const formatAMPM = (date) => {
   var hours = date.getHours();
   var minutes = date.getMinutes();
@@ -28,9 +32,7 @@ const getMatchingCityList = async(cityInput) => {
 const citySearchInput = document.querySelector('#city');
 const celsiusToggler = document.querySelector('.nav__temp-celsius');
 const fahrenheitToggler = document.querySelector('.nav__temp-fahrenheit');
-let cityList = [];
-let cityWeatherData = [];
-let units = 'Celsius';
+
 
 const clearInput = () => {
   citySearchInput.value = '';
@@ -58,17 +60,13 @@ const getWeatherIconSrc = (weatherCode) => {
   if(weatherCode === 'Thunderstorm') return './gif/lightning.gif';
 }
 
-const clearCardContainer = () => {
-  const container = document.querySelector('.card-container');
-  while (container.firstChild) {
-    container.firstChild.remove();
-  }
-}
-
 const makeCard = (cityData, cityWeatherData) => {
   const container = document.querySelector('.card-container');
   const card = document.createElement('div');
   card.classList.add('card');
+  card.setAttribute('data-latitude', cityData.lat);
+  card.setAttribute('data-longitude', cityData.lon);
+  // console.log(card.dataset.longitude)
   const cardHeader = document.createElement('h2')
   cardHeader.classList.add('card__header');
   cardHeader.append(`${cityData.name}${cityData.state ? ', ' + cityData.state : ''}${cityData.country ? ', ' + cityData.country : ''}`);
@@ -82,33 +80,27 @@ const makeCard = (cityData, cityWeatherData) => {
   cardTemp.classList.add('card__temp');
   if(units === 'Celsius') cardTemp.append(`${conversion.KtoC(cityWeatherData.main.temp)}°C`);
   if(units === 'Fahrenheit') cardTemp.append(`${conversion.KtoF(cityWeatherData.main.temp)}°F`);
+
+  card.addEventListener('click', async() => {
+    const latitude = card.dataset.latitude;
+    const longitude = card.dataset.longitude;
+    const cityWeatherData = await getSpecificCityWeatherData(latitude,longitude);
+    const forecast = await get5DayForecast(latitude, longitude);
+    const hourlyWeatherData = forecast.list.slice(0,8);
+    clearContent();
+    makeDetailsPage(cityWeatherData, hourlyWeatherData);
+  })
+
   container.append(card);
   card.append(cardHeader, cardSubHeader, cardWeatherIcon, cardTemp);
 }
 
-citySearchInput.addEventListener('keydown', async(e) => {
-  if(e.key === 'Enter'){
-    if(!citySearchInput.value) return;
-    await setCityListFromInput();
-    clearInput();
-    await getCityWeatherData(cityList);
-    clearCardContainer();
-    cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
-    console.dir(cityList)
-    console.dir(cityWeatherData)
-  }
-})
-
 celsiusToggler.addEventListener('click', () => {
   units = 'Celsius';
-  clearCardContainer();
-  cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
 })
 
 fahrenheitToggler.addEventListener('click', () => {
   units = 'Fahrenheit';
-  clearCardContainer();
-  cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
 })
 
 const get5DayForecast = async (latitude, longitude) => {
@@ -123,8 +115,6 @@ const clearContent = () => {
     content.firstChild.remove();
   }
 }
-
-const getUserLocationBtn = document.querySelector('.get-user-location-btn')
 
 const getSpecificCityWeatherData = async(latitude, longitude) => {
   const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
@@ -187,24 +177,53 @@ const makeDetailsPage = (cityWeatherData, hourlyWeatherData) => {
   })
 }
 
-getUserLocationBtn.addEventListener('click', () => {
-  const successHandler = async (response) => {
-    const { latitude, longitude } = await response.coords;
-    const cityWeatherData = await getSpecificCityWeatherData(latitude,longitude);
-    const forecast = await get5DayForecast(latitude, longitude);
-    const hourlyWeatherData = forecast.list.slice(0,8);
-    makeDetailsPage(cityWeatherData, hourlyWeatherData);
+const makeMainPage = () => {
+  const content = document.querySelector('.content');
+  const getUserLocationBtn = document.createElement('button');
+  getUserLocationBtn.classList.add('get-user-location-btn');
+  getUserLocationBtn.append('Get Weather');
+
+  getUserLocationBtn.addEventListener('click', () => {
+    const successHandler = async (response) => {
+      const { latitude, longitude } = await response.coords;
+      const cityWeatherData = await getSpecificCityWeatherData(latitude,longitude);
+      const forecast = await get5DayForecast(latitude, longitude);
+      const hourlyWeatherData = forecast.list.slice(0,8);
+      makeDetailsPage(cityWeatherData, hourlyWeatherData);
+    }
+    clearContent();
+    navigator.geolocation.getCurrentPosition(successHandler);
+  })
+
+  content.append(getUserLocationBtn);
+}
+
+citySearchInput.addEventListener('keydown', async(e) => {
+  if(e.key === 'Enter'){
+    if(!citySearchInput.value) return;
+    await setCityListFromInput();
+    clearInput();
+    await getCityWeatherData(cityList);
+
+    clearContent();
+    const content = document.querySelector('.content');
+    const cardContainer = document.createElement('div');
+    cardContainer.classList.add('card-container');
+    content.append(cardContainer);
+    cityList.forEach((city, index) => makeCard(city, cityWeatherData[index]));
+    console.dir(cityList)
+    console.dir(cityWeatherData)
   }
+})
+
+const logo = document.querySelector('.nav__logo');
+logo.addEventListener('click', () => {
   clearContent();
-  navigator.geolocation.getCurrentPosition(successHandler);
+  makeMainPage();
 })
 
 
-
-
-
-
-
+makeMainPage();
 
 // on form submit, get user input
 
