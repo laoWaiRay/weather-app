@@ -15,11 +15,10 @@ const setCityListFromInput = async() => {
   cityList = await getUserInput.getMatchingCityList()
                               .catch(err => console.log('Error: could not fetch weather data.', err));
 }
-
 const getCityWeatherData = async(cityList) => {
   cityWeatherData = [];
   for (let city of cityList) {
-    const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${API_KEY}`);
+    const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${API_KEY}`, { mode: 'cors' });
     const data = await result.json();
     cityWeatherData.push(data);
   } 
