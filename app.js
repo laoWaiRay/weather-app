@@ -1,21 +1,15 @@
-import getUserInput from "./getUserInput.js";
-import unitsManager from "./unitsManager.js";
-import makeCard from "./makeCard.js";
-import currentPage from "./currentPage.js";
-import currentCity from "./currentCity.js";
-import getSpecificCityWeatherData from "./getSpecificCityWeatherData.js";
-import clearContent from "./clearContent.js";
-import makeDetailsPage from "./makeDetailsPage.js";
-import get5DayForecast from "./get5DayForecast.js";
+import getUserInput from "./modules/getUserInput.js";
+import currentPage from "./modules/currentPage.js";
+import clearContent from "./modules/clearContent.js";
+import makeMainPage from "./modules/makeMainPage.js";
+import makeCard from "./modules/makeCard.js";
+import unitTogglerInit from "./modules/unitToggler.js";
+import toggleLoader from "./modules/toggleLoader.js";
 
 const API_KEY = 'a50c5c89e6094bcfb80760c1cec24902';
 
 let cityList = [];
 let cityWeatherData = [];
-
-// Weather data for searched cities
-let specificCityWeatherData;
-let forecast;
 
 const setCityListFromInput = async() => {
   cityList = await getUserInput.getMatchingCityList()
@@ -29,62 +23,6 @@ const getCityWeatherData = async(cityList) => {
     const data = await result.json();
     cityWeatherData.push(data);
   } 
-}
-
-const reloadPage = () => {
-  if (currentPage.getPage() === 'cards') makeCardsPage();
-  if (currentPage.getPage() === 'details' && currentCity.isCurrentCity === true) {
-    const hourlyWeatherData = currentCity.getCurrentCityForecast().list.slice(0,8);
-    makeDetailsPage(currentCity.getCurrentCityWeatherData(), hourlyWeatherData);
-  }
-  if (currentPage.getPage() === 'details' && currentCity.isCurrentCity === false) {
-    const hourlyWeatherData = forecast.list.slice(0,8);
-    makeDetailsPage(specificCityWeatherData, hourlyWeatherData);
-  }
-}
-
-const celsiusToggler = document.querySelector('.nav__temp-celsius');
-const fahrenheitToggler = document.querySelector('.nav__temp-fahrenheit');
-
-celsiusToggler.addEventListener('click', () => {
-  unitsManager.setUnits('Celsius');
-  if (currentPage.getPage() === 'main') return;
-  clearContent();
-  reloadPage();
-})
-
-fahrenheitToggler.addEventListener('click', () => {
-  unitsManager.setUnits('Fahrenheit');
-  if (currentPage.getPage() === 'main') return;
-  clearContent();
-  reloadPage();
-})
-
-const makeMainPage = () => {
-  currentPage.setPage('main');
-  const content = document.querySelector('.content');
-  const getUserLocationBtn = document.createElement('button');
-  getUserLocationBtn.classList.add('get-user-location-btn');
-  getUserLocationBtn.append('Get Weather');
-
-  getUserLocationBtn.addEventListener('click', () => {
-    currentCity.setTrue();
-    const successHandler = async (response) => {
-      const { latitude, longitude } = await response.coords;
-      currentCity.setCurrentCityWeatherData(await getSpecificCityWeatherData(latitude,longitude));
-      currentCity.setCurrentCityForecast(await get5DayForecast(latitude,longitude));
-      const hourlyWeatherData = currentCity.getCurrentCityForecast().list.slice(0,8);
-      makeDetailsPage(currentCity.getCurrentCityWeatherData(), hourlyWeatherData);
-    }
-    clearContent();
-    if(currentCity.getCurrentCityWeatherData() === null) navigator.geolocation.getCurrentPosition(successHandler);
-    else {
-      const hourlyWeatherData = currentCity.getCurrentCityForecast().list.slice(0,8);
-      makeDetailsPage(currentCity.getCurrentCityWeatherData(), hourlyWeatherData);
-    }
-  })
-
-  content.append(getUserLocationBtn);
 }
 
 const makeCardsPage = () => {
@@ -101,9 +39,10 @@ const citySearchInput = document.querySelector('#city');
 citySearchInput.addEventListener('keydown', async(e) => {
   if(e.key === 'Enter'){
     if(!citySearchInput.value) return;
+    toggleLoader();
     await setCityListFromInput();
     await getCityWeatherData(cityList);
-
+    toggleLoader();
     clearContent();
     makeCardsPage();
   }
@@ -115,5 +54,6 @@ logo.addEventListener('click', () => {
   makeMainPage();
 })
 
+unitTogglerInit();
 makeMainPage();
-
+toggleLoader();

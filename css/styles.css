@@ -41,14 +41,26 @@ a:hover::after {
   opacity: 1;
 }
 
-.green {
-  color: rgb(46, 234, 46);
-}
-
 .heading-secondary {
   font-weight: 200;
   font-size: 3rem;
   margin-bottom: 1rem;
+}
+
+.green {
+  color: rgb(55, 179, 55);
+}
+
+.blue {
+  background-color: midnightblue;
+}
+
+.purple {
+  background-color: rebeccapurple;
+}
+
+.orange {
+  background-color: orangered;
 }
 
 .get-user-location-btn {
@@ -107,6 +119,154 @@ a:hover::after {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.loader {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(11, 38, 2, 0.937254902);
+  z-index: 5;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5rem;
+}
+
+.loader-msg {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  line-height: 2;
+  font-weight: 200;
+  font-size: 2.5rem;
+}
+.loader-msg .msg-top {
+  color: orange;
+  letter-spacing: 1px;
+}
+.loader-msg .msg-bottom {
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+.mug-body {
+  position: relative;
+}
+
+.mug-body {
+  content: " ";
+  height: 150px;
+  width: 200px;
+  background: orange;
+  border-radius: 0 0 70px 70px;
+  position: relative;
+}
+
+.mug-body::after {
+  content: "";
+  height: 150px;
+  width: 200px;
+  background: orange;
+  position: absolute;
+  border-radius: 0 0 70px 70px;
+}
+
+.handle {
+  background: orange;
+  height: 80px;
+  width: 150px;
+  position: absolute;
+  z-index: 0;
+  right: -50px;
+  border-radius: 0 50px 50px 0;
+}
+
+.handle::after {
+  content: "";
+  height: 78%;
+  width: 80%;
+  border-radius: 0 50px 50px 0;
+  z-index: 3;
+  background: rgba(11, 38, 2, 0.9490196078);
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.steam {
+  height: 80px;
+  width: 40px;
+  background: rgba(255, 255, 255, 0.986);
+  position: absolute;
+  top: -100px;
+  left: 10px;
+  z-index: 4;
+  overflow: hidden;
+}
+.steam--2 {
+  left: 80px;
+}
+.steam--3 {
+  left: 150px;
+}
+
+.wave-left {
+  width: 160px;
+  height: 19px;
+  background: url(/sine-wave.svg);
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: rotate(90deg) translate(-8px, 40px);
+}
+.wave-left--1 {
+  animation: slideLeftWave 2s linear infinite;
+}
+.wave-left--2 {
+  animation: slideLeftWave 2s linear -800ms infinite;
+}
+.wave-left--3 {
+  animation: slideLeftWave 2s linear -200ms infinite;
+}
+
+.wave-right {
+  width: 160px;
+  height: 19px;
+  background: url(/sine-wave.svg);
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: rotate(-90deg) translate(9px, 40px);
+}
+.wave-right--1 {
+  animation: slideRightWave 2s linear infinite;
+}
+.wave-right--2 {
+  animation: slideRightWave 2s linear -800ms infinite;
+}
+.wave-right--3 {
+  animation: slideRightWave 2s linear -200ms infinite;
+}
+
+@keyframes slideLeftWave {
+  0% {
+    transform: rotate(90deg) translate(-8px, 40px);
+  }
+  100% {
+    transform: rotate(90deg) translate(70px, 40px);
+  }
+}
+@keyframes slideRightWave {
+  0% {
+    transform: rotate(-90deg) translate(9px, 40px);
+  }
+  100% {
+    transform: rotate(-90deg) translate(-71px, 40px);
+  }
+}
 .nav {
   z-index: 2;
   padding: 1rem 4rem;
@@ -129,9 +289,9 @@ a:hover::after {
 }
 .nav__logo-text {
   font-size: 3rem;
-  font-weight: 400;
+  font-weight: 300;
   margin-left: 0;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 .nav__controls {
   flex-basis: 50%;
