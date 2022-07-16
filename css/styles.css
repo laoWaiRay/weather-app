@@ -16,7 +16,7 @@ body {
   min-height: 100%;
   color: #fff;
   position: relative;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.75)), url("../../hero.jpg");
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.75)), url("../hero.jpg");
   background-size: cover;
   background-attachment: fixed;
 }
@@ -214,7 +214,7 @@ a:hover::after {
 .wave-left {
   width: 160px;
   height: 19px;
-  background: url("../../sine-wave.svg");
+  background: url("../sine-wave.svg");
   background-repeat: no-repeat;
   position: absolute;
   left: 0;
@@ -234,7 +234,7 @@ a:hover::after {
 .wave-right {
   width: 160px;
   height: 19px;
-  background: url("../../sine-wave.svg");
+  background: url("../sine-wave.svg");
   background-repeat: no-repeat;
   position: absolute;
   right: 0;
