@@ -53,11 +53,23 @@
     &::placeholder{
       color: rgba(255, 255, 255, 0.5);
     }
+
+    @media only screen and (max-width: 640px) {
+      position: absolute;
+      top: calc(100% + 2rem);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+    }
   }
 
   &__temp-selector{
     display: flex;
     margin-left: 2rem;
+  }
+
+  @media only screen and (max-width: 880px) {
+    position: relative;
   }
 }
 

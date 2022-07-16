@@ -13,25 +13,46 @@
     font-weight: 200;
     margin-bottom: 3rem;
     text-align: center;
+    
+    @media only screen and (max-width: 1220px) {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
   }
 
   &__subheader{
     font-size: 4rem;
     margin-top: auto;
+
+    @media only screen and (max-width: 1220px) {
+      font-size: 3rem;
+    }
   }
 
   &__weather-icon{
     width: 15rem;
     margin-top: auto;
+
+    @media only screen and (max-width: 1220px) {
+      width: 12rem;
+    }
   }
 
   &__temp{
     font-size: 6rem;
     margin-top: auto;
+
+    @media only screen and (max-width: 1220px) {
+      font-size: 5rem;
+    }
   }
 
   &:hover{
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.5);
   }
+}
+
+@media only screen and (max-width: 1220px) {
+    
 }

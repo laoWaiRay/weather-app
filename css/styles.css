@@ -8,6 +8,21 @@ html {
   font-size: 62.5%;
   height: 100%;
 }
+@media only screen and (max-width: 432px) {
+  html {
+    font-size: 58%;
+  }
+}
+@media only screen and (max-width: 390px) {
+  html {
+    font-size: 54%;
+  }
+}
+@media only screen and (max-width: 350px) {
+  html {
+    font-size: 50%;
+  }
+}
 
 body {
   box-sizing: border-box;
@@ -102,17 +117,38 @@ a:hover::after {
   margin-bottom: 3rem;
   text-align: center;
 }
+@media only screen and (max-width: 1220px) {
+  .card__header {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+}
 .card__subheader {
   font-size: 4rem;
   margin-top: auto;
+}
+@media only screen and (max-width: 1220px) {
+  .card__subheader {
+    font-size: 3rem;
+  }
 }
 .card__weather-icon {
   width: 15rem;
   margin-top: auto;
 }
+@media only screen and (max-width: 1220px) {
+  .card__weather-icon {
+    width: 12rem;
+  }
+}
 .card__temp {
   font-size: 6rem;
   margin-top: auto;
+}
+@media only screen and (max-width: 1220px) {
+  .card__temp {
+    font-size: 5rem;
+  }
 }
 .card:hover {
   cursor: pointer;
@@ -121,11 +157,14 @@ a:hover::after {
 
 .loader {
   position: absolute;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: rgba(11, 38, 2, 0.937254902);
   z-index: 5;
   top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -317,9 +356,23 @@ a:hover::after {
 .nav__search::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
+@media only screen and (max-width: 640px) {
+  .nav__search {
+    position: absolute;
+    top: calc(100% + 2rem);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+  }
+}
 .nav__temp-selector {
   display: flex;
   margin-left: 2rem;
+}
+@media only screen and (max-width: 880px) {
+  .nav {
+    position: relative;
+  }
 }
 
 span.slash {
@@ -356,6 +409,12 @@ span.slash {
   align-items: center;
   font-weight: 200;
 }
+@media only screen and (max-width: 880px) {
+  .details {
+    padding: 0;
+    display: block;
+  }
+}
 
 .details-container {
   z-index: 2;
@@ -366,6 +425,22 @@ span.slash {
   padding-bottom: 4rem;
   gap: 4rem 0;
   width: 110rem;
+}
+@media only screen and (max-width: 880px) {
+  .details-container {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+    width: 50%;
+    margin: 0 auto;
+    gap: 4rem 0;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .details-container {
+    padding: 6rem 0;
+    width: 100%;
+  }
 }
 
 .details-header {
@@ -382,9 +457,21 @@ span.slash {
   display: flex;
   align-items: center;
 }
+@media only screen and (max-width: 880px) {
+  .details-header__main {
+    flex-direction: column;
+    padding: 2rem;
+    padding-bottom: 1rem;
+  }
+}
 .details-header__icon {
   width: 8rem;
   margin: 0 3rem;
+}
+@media only screen and (max-width: 880px) {
+  .details-header__icon {
+    margin-top: 1rem;
+  }
 }
 .details-header__temp {
   font-size: 6rem;
@@ -397,6 +484,12 @@ span.slash {
 .details-header__subtext {
   margin-right: 1rem;
   font-style: italic;
+}
+@media only screen and (max-width: 880px) {
+  .details-header {
+    grid-column: initial;
+    grid-column: 1/-1;
+  }
 }
 
 .hourly-forecast {
@@ -437,6 +530,12 @@ span.slash {
     display: block;
   }
 }
+@media only screen and (max-width: 880px) {
+  .hourly-forecast {
+    grid-column: 1/-1;
+    grid-row: 2/3;
+  }
+}
 
 .info-box {
   border: 1px solid #fff;
@@ -449,17 +548,53 @@ span.slash {
 .info-box--temp {
   background-image: linear-gradient(-45deg, transparent, transparent 50%, rgba(223, 91, 30, 0.493) 0%, rgba(244, 120, 4, 0.52));
 }
+@media only screen and (max-width: 880px) {
+  .info-box {
+    height: 15rem;
+    width: 15rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .info-box {
+    height: 20rem;
+    width: 20rem;
+  }
+}
 
 .high {
   position: absolute;
   top: 4.5rem;
   left: 3rem;
 }
+@media only screen and (max-width: 880px) {
+  .high {
+    font-size: 2rem;
+    top: 3.5rem;
+    left: 2rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .high {
+    font-size: 3rem;
+  }
+}
 
 .low {
   position: absolute;
   bottom: 3.5rem;
   right: 3rem;
+}
+@media only screen and (max-width: 880px) {
+  .low {
+    font-size: 2rem;
+    bottom: 2.5rem;
+    right: 1rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .low {
+    font-size: 3rem;
+  }
 }
 
 #sunrise {
@@ -475,12 +610,33 @@ span.slash {
   left: 16px;
   font-size: 2rem;
 }
+@media only screen and (max-width: 880px) {
+  .sunrise {
+    font-size: 1.5rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .sunrise {
+    font-size: 2rem;
+  }
+}
 
 .sunset {
   position: absolute;
   bottom: 25px;
   right: 18px;
   font-size: 2rem;
+}
+@media only screen and (max-width: 880px) {
+  .sunset {
+    font-size: 1.5rem;
+    bottom: 20px;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .sunset {
+    font-size: 2rem;
+  }
 }
 
 #humidity,
@@ -508,8 +664,29 @@ span.slash {
   margin: 0;
 }
 
+@media only screen and (max-width: 880px) {
+  .info-text {
+    font-size: 2rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .info-text {
+    font-size: 3rem;
+  }
+}
+
 .info-number {
   font-size: 6rem;
+}
+@media only screen and (max-width: 880px) {
+  .info-number {
+    font-size: 4rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .info-number {
+    font-size: 5rem;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */
