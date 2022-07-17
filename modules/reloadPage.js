@@ -1,6 +1,7 @@
 import currentPage from "./currentPage.js";
 import currentCity from "./currentCity.js";
 import makeDetailsPage from "./makeDetailsPage.js";
+import makeCardsPage from "./makeCardsPage.js"
 
 const reloadPage = () => {
   if (currentPage.getPage() === 'cards') makeCardsPage();
